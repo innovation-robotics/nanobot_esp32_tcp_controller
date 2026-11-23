@@ -3,11 +3,19 @@
 #include <math.h>
 #include <stdlib.h>
 
+struct PIDState {
+  float prev_error = 0.0;
+  float integral = 0.0;
+};
+
+PIDState left_pid;
+PIDState right_pid;
+
 // =============================================================================
 // NETWORK & PORT CONFIGURATION
 // =============================================================================
-const char* WIFI_SSID = "DIR-806A-C4FA";
-const char* WIFI_PASS = "0108083659";
+const char* WIFI_SSID = "";
+const char* WIFI_PASS = "";
 
 const uint16_t ARM_TCP_PORT     = 8890; // PC -> ESP32 -> Arduino: "a1,a2,a3\n" (3 arm angles)
 const uint16_t GRIPPER_TCP_PORT = 8891; // PC -> ESP32 -> Arduino: "g1\n"       (1 gripper angle)
@@ -145,14 +153,6 @@ const unsigned long PID_INTERVAL = 100;
 
 unsigned long last_base_tx_time = 0;
 const unsigned long BASE_TX_INTERVAL = 50; // 20 Hz wheel feedback to PC
-
-struct PIDState {
-  float prev_error = 0.0;
-  float integral = 0.0;
-};
-
-PIDState left_pid;
-PIDState right_pid;
 
 float Kv = 10.9303718369895;
 int Bv = 152.718267291324;
